@@ -1,23 +1,41 @@
 
 package dk.easv.tictactoe.bll;
 
+
 /**
  *
  * @author EASV
  */
+
 public class GameBoard implements IGameBoard
 {
+    private static int player;
 
     /**
      * Returns 0 for player 0, 1 for player 1.
      *
      * @return int Id of the next player.
      */
-    public int getNextPlayer()
-    {
-        //TODO Implement this method
-        return 0;
+
+    public int getNextPlayer() {
+        return player;
     }
+    // making a method to change player
+    public static void changePlayer() {
+        player = (player + 1) % 2;
+    }
+
+    public static int[][] arrBoard = new int[3][3];
+    // method that checks the values of each button on the board
+    public static void checkBoard(){
+        for(int row = 0; row < arrBoard.length; row++){
+            for(int col = 0; col < arrBoard[0].length; col++){
+                System.out.print(arrBoard[row][col]+" ");
+            }
+            System.out.println();
+        }
+    }
+
 
     /**
      * Attempts to let the current player play at the given coordinates. It the

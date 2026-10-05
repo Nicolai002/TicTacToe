@@ -24,21 +24,40 @@ public class TicTacViewController implements Initializable
 {
     @FXML
     private Label lblPlayer;
-
     @FXML
     private Button btnNewGame;
+    @FXML
+    private Button btn1;
+    @FXML
+    private Button btn2;
+    @FXML
+    private Button btn3;
+    @FXML
+    private Button btn4;
+    @FXML
+    private Button btn5;
+    @FXML
+    private Button btn6;
+    @FXML
+    private Button btn7;
+    @FXML
+    private Button btn8;
+    @FXML
+    private Button btn9;
 
     @FXML
     private GridPane gridPane;
     
     private static final String TXT_PLAYER = "Player: ";
     private IGameBoard game;
+    private static int playerturn;
 
     /**
      * Event handler for the grid buttons
      *
      * @param event
      */
+
     @FXML
     private void handleButtonAction(ActionEvent event)
     {
@@ -49,6 +68,7 @@ public class TicTacViewController implements Initializable
             int r = (row == null) ? 0 : row;
             int c = (col == null) ? 0 : col;
             int player = game.getNextPlayer();
+
             if (game.play(c, r))
             {
                 if (game.isGameOver())
@@ -61,8 +81,20 @@ public class TicTacViewController implements Initializable
                     Button btn = (Button) event.getSource();
                     String xOrO = player == 0 ? "X" : "O";
                     btn.setText(xOrO);
+                    // calling the method from gameboard to change player
+                    GameBoard.changePlayer();
                     setPlayer();
                 }
+                if(event.getSource()==btn1){
+                    if(player==0) {
+                        GameBoard.arrBoard[0][0] = 1;
+                    }
+                    else if(player==1){
+                        GameBoard.arrBoard[0][0] = 2;
+                    }
+                }
+                System.out.println("Player turn: " + player);
+                GameBoard.checkBoard();
             }
         } catch (Exception e)
         {
