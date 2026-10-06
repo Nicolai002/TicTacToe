@@ -2,6 +2,9 @@
 package dk.easv.tictactoe.bll;
 
 
+import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
+
 /**
  *
  * @author EASV
@@ -10,6 +13,7 @@ package dk.easv.tictactoe.bll;
 public class GameBoard implements IGameBoard
 {
     private static int player;
+    private int WinningPlayer;
 
     /**
      * Returns 0 for player 0, 1 for player 1.
@@ -37,8 +41,6 @@ public class GameBoard implements IGameBoard
             System.out.println();
         }
     }
-
-
     /**
      * Attempts to let the current player play at the given coordinates. It the
      * attempt is succesfull the current player has ended his turn and it is the
@@ -54,36 +56,93 @@ public class GameBoard implements IGameBoard
         //TODO Implement this method
         return true;
     }
-
-    /**
-     * Tells us if the game has ended either by draw or by meeting the winning
-     * condition.
-     *
-     * @return true if the game is over, else it will retun false.
-     */
-    public boolean isGameOver()
-    {
-        //TODO Implement this method
+    public boolean isGameOver() {
+        // checking all rows in the array if they are either 1 or 2
+        for (int row = 0; row < arrBoard.length; row++) {
+            int x = arrBoard[row][0];
+            if (x == 1
+                    && x == arrBoard[row][1]
+                    && x == arrBoard[row][2]) {
+                WinningPlayer = 1;
+                return true;
+            } else if (x == 2
+                    && x == arrBoard[row][1]
+                    && x == arrBoard[row][2]) {
+                WinningPlayer = 2;
+                return true;
+            }
+        }
+        // checking all columns in the array if they are either 1 or 2
+        for (int col = 0; col < arrBoard.length; col++) {
+            int y = arrBoard[0][col];
+            if (y == 1
+                    && y == arrBoard[1][col]
+                    && y == arrBoard[2][col]) {
+                WinningPlayer = 1;
+                return true;
+            } else if (y == 2
+                    && y == arrBoard[1][col]
+                    && y == arrBoard[2][col]) {
+                WinningPlayer = 2;
+                return true;
+            }
+        }
+        // checking diagonally if the value is 1 or 2
+        if (arrBoard[0][0] == 1
+                && arrBoard[0][0] == arrBoard[1][1]
+                && arrBoard[0][0] == arrBoard[2][2]) {
+            WinningPlayer = 1;
+            return true;
+            } else if (arrBoard[0][0] == 2
+                && arrBoard[0][0] == arrBoard[1][1]
+                && arrBoard[0][0] == arrBoard[2][2]) {
+            WinningPlayer = 2;
+            return true;
+        // checking diagonally if the value is 1 or 2
+        } else if (arrBoard[2][0] == 1
+                && arrBoard[1][1] == arrBoard[0][2]
+                && arrBoard[0][2] == arrBoard[2][0]) {
+            WinningPlayer = 1;
+            return true;
+        } else if (arrBoard[2][0] == 2
+                && arrBoard[1][1] == arrBoard[0][2]
+                && arrBoard[0][2] == arrBoard[2][0]) {
+            WinningPlayer = 2;
+            return true;
+        }
+        if(isBoardFull() && WinningPlayer==0) {
+            return true;
+        }
         return false;
     }
-
-    /**
-     * Gets the id of the winner, -1 if its a draw.
-     *
-     * @return int id of winner, or -1 if draw.
-     */
-    public int getWinner()
-    {
-        if()
-        //TODO Implement this method
-        return -1;
+    private boolean isBoardFull() {
+        for (int[] row : arrBoard) {
+            for (int cell : row) {
+                if (cell == 0) {
+                    return false; // found an empty cell
+                }
+            }
+        }
+        return true; // no empty cells found
     }
-
-    /**
-     * Resets the game to a new game state.
-     */
+    public int getWinner() {
+        if(WinningPlayer == 1) {
+            System.out.println("Player 0 won");
+            return 0;
+        } else if(WinningPlayer == 2) {
+            System.out.println("Player 1 won");
+            return 1;
+        } else {
+            return -1;
+        }
+    }
     public void newGame()
     {
-        //TODO Implement this method
+        WinningPlayer = 0;
+        for (int r = 0; r < arrBoard.length; r++) {
+            for (int c = 0; c < arrBoard[r].length; c++) {
+                arrBoard[r][c] = 0;
+            }
+        }
     }
 }
