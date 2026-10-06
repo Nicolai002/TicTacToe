@@ -25,11 +25,13 @@ public class GameBoard implements IGameBoard
         player = (player + 1) % 2;
     }
 
+    // making a multidimensional array with a size of 3x3
     public static int[][] arrBoard = new int[3][3];
+
     // method that checks the values of each button on the board
-    public static void checkBoard(){
-        for(int row = 0; row < arrBoard.length; row++){
-            for(int col = 0; col < arrBoard[0].length; col++){
+    public static void checkBoard() {
+        for(int row = 0; row < arrBoard.length; row++) {
+            for(int col = 0; col < arrBoard[0].length; col++) {
                 System.out.print(arrBoard[row][col]+" ");
             }
             System.out.println();
@@ -72,6 +74,7 @@ public class GameBoard implements IGameBoard
      */
     public int getWinner()
     {
+        if()
         //TODO Implement this method
         return -1;
     }

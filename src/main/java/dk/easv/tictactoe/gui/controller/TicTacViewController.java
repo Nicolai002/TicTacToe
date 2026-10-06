@@ -16,10 +16,6 @@ import javafx.scene.layout.GridPane;
 import dk.easv.tictactoe.bll.GameBoard;
 import dk.easv.tictactoe.bll.IGameBoard;
 
-/**
- *
- * @author EASV
- */
 public class TicTacViewController implements Initializable
 {
     @FXML
@@ -27,77 +23,48 @@ public class TicTacViewController implements Initializable
     @FXML
     private Button btnNewGame;
     @FXML
-    private Button btn1;
-    @FXML
-    private Button btn2;
-    @FXML
-    private Button btn3;
-    @FXML
-    private Button btn4;
-    @FXML
-    private Button btn5;
-    @FXML
-    private Button btn6;
-    @FXML
-    private Button btn7;
-    @FXML
-    private Button btn8;
-    @FXML
-    private Button btn9;
-
-    @FXML
     private GridPane gridPane;
-    
     private static final String TXT_PLAYER = "Player: ";
     private IGameBoard game;
-    private static int playerturn;
 
-    /**
-     * Event handler for the grid buttons
-     *
-     * @param event
-     */
-
-    @FXML
-    private void handleButtonAction(ActionEvent event)
-    {
-        try
-        {
+    @FXML   // method/event handler that runs when a button/cell in the array is clicked
+    private void handleButtonAction(ActionEvent event) {
+        try {
+            /*
+            figuring out which cell (in the array) was clicked. event.getSource returns which button was clicked.
+            getRow/ColumnIndex returns its position in the array.
+            they return as wrapper types Integer (not int) because JavaFX by default returns null when a node is in row/column 0 and not defined yet
+            and an int cannot be null
+             */
             Integer row = GridPane.getRowIndex((Node) event.getSource());
             Integer col = GridPane.getColumnIndex((Node) event.getSource());
+            /*
+            if row is null (doesn't have a value), set it to 0 (indicated by "?")
+            otherwise set it to row (keep it as is, but as an int) (indicated by ":")
+            basically checking if the wrapper type is null, and converting it into an int (since an int cannot be null)
+             */
             int r = (row == null) ? 0 : row;
             int c = (col == null) ? 0 : col;
             int player = game.getNextPlayer();
 
-            if (game.play(c, r))
-            {
-                if (game.isGameOver())
-                {
+            if (game.play(c, r)) {
+                if (game.isGameOver()) {
                     int winner = game.getWinner();
                     displayWinner(winner);
-                }
-                else
-                {
+                } else {
                     Button btn = (Button) event.getSource();
                     String xOrO = player == 0 ? "X" : "O";
                     btn.setText(xOrO);
-                    // calling the method from gameboard to change player
+                    // calling the method from gameboard to change to the next players turn
                     GameBoard.changePlayer();
                     setPlayer();
-                }
-                if(event.getSource()==btn1){
-                    if(player==0) {
-                        GameBoard.arrBoard[0][0] = 1;
-                    }
-                    else if(player==1){
-                        GameBoard.arrBoard[0][0] = 2;
-                    }
+                    // sets the value of the cell the player has clicked on [r][c] as either 1 (if player = 0) or 2 (if player = 1)
+                    GameBoard.arrBoard[r][c] = player + 1;
                 }
                 System.out.println("Player turn: " + player);
                 GameBoard.checkBoard();
             }
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
