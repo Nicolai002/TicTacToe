@@ -47,22 +47,23 @@ public class TicTacViewController implements Initializable
             int c = (col == null) ? 0 : col;
             int player = game.getNextPlayer();
 
+            if(game.isGameOver()==false) {
+                Button btn = (Button) event.getSource();
+                String xOrO = player == 0 ? "X" : "O";
+                btn.setText(xOrO);
+                // calling the method from gameboard to change to the next players turn
+                GameBoard.changePlayer();
+                setPlayer();
+                // sets the value of the cell the player has clicked on [r][c] as either 1 (if player = 0) or 2 (if player = 1)
+                GameBoard.arrBoard[r][c] = player + 1;
+                System.out.println("Player turn: " + player);
+                GameBoard.checkBoard();
+            }
             if (game.play(c, r)) {
                 if (game.isGameOver()) {
                     int winner = game.getWinner();
                     displayWinner(winner);
-                } else {
-                    Button btn = (Button) event.getSource();
-                    String xOrO = player == 0 ? "X" : "O";
-                    btn.setText(xOrO);
-                    // calling the method from gameboard to change to the next players turn
-                    GameBoard.changePlayer();
-                    setPlayer();
-                    // sets the value of the cell the player has clicked on [r][c] as either 1 (if player = 0) or 2 (if player = 1)
-                    GameBoard.arrBoard[r][c] = player + 1;
                 }
-                System.out.println("Player turn: " + player);
-                GameBoard.checkBoard();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
