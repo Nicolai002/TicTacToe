@@ -2,6 +2,7 @@
 package dk.easv.tictactoe.gui.controller;
 
 // Java imports
+import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,6 +27,9 @@ public class TicTacViewController implements Initializable
     private GridPane gridPane;
     private static final String TXT_PLAYER = "Player: ";
     private IGameBoard game;
+    // making an array for the visible buttons (for coloring the winning row)
+    private static Button[] buttons;
+    @FXML private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
 
     @FXML   // method/event handler that runs when a button/cell in the array is clicked
     private void handleButtonAction(ActionEvent event) {
@@ -76,13 +80,17 @@ public class TicTacViewController implements Initializable
      * @param event
      */
     @FXML
-    private void handleNewGame(ActionEvent event)
-    {
+    private void handleNewGame(ActionEvent event) {
         game.newGame();
         setPlayer();
         clearBoard();
+        // resets the text color of all the buttons
+        for (Button b : buttons) {
+            b.setText("");
+            b.setTextFill(Color.BLACK);
+            b.setStyle("");
+        }
     }
-
     /**
      * Initializes a new controller
      *
@@ -95,30 +103,29 @@ public class TicTacViewController implements Initializable
      * the root object was not localized.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
         game = new GameBoard();
         setPlayer();
+        buttons = new Button[] { btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9 };
     }
-
+    public static void highlight(int a, int b, int c) {
+        for (int i : new int[] { a, b, c }) {
+            buttons[i].setTextFill(Color.GREEN);
+        }
+    }
     /**
      * Set the next player
      */
-    private void setPlayer()
-    {
+    private void setPlayer() {
         lblPlayer.setText(TXT_PLAYER + game.getNextPlayer());
     }
-
-
     /**
      * Finds a winner or a draw and displays a message based
      * @param winner
      */
-    private void displayWinner(int winner)
-    {
+    private void displayWinner(int winner) {
         String message = "";
-        switch (winner)
-        {
+        switch (winner) {
             case -1:
                 message = "It's a draw :-(";
                 break;
@@ -128,12 +135,10 @@ public class TicTacViewController implements Initializable
         }
         lblPlayer.setText(message);
     }
-
     /**
      * Clears the game board in the GUI
      */
-    private void clearBoard()
-    {
+    private void clearBoard() {
         for(Node n : gridPane.getChildren())
         {
             Button btn = (Button) n;

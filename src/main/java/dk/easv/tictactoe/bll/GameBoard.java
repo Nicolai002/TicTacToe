@@ -2,8 +2,10 @@
 package dk.easv.tictactoe.bll;
 
 
+import dk.easv.tictactoe.gui.controller.TicTacViewController;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -64,11 +66,15 @@ public class GameBoard implements IGameBoard
                     && x == arrBoard[row][1]
                     && x == arrBoard[row][2]) {
                 WinningPlayer = 1;
+                // coloring the winning row green with the highlight method from the controller
+                TicTacViewController.highlight(row * 3, row * 3 + 1, row * 3 + 2);
                 return true;
             } else if (x == 2
                     && x == arrBoard[row][1]
                     && x == arrBoard[row][2]) {
                 WinningPlayer = 2;
+                // coloring the winning row green with the highlight method from the controller
+                TicTacViewController.highlight(row * 3, row * 3 + 1, row * 3 + 2);
                 return true;
             }
         }
@@ -79,11 +85,13 @@ public class GameBoard implements IGameBoard
                     && y == arrBoard[1][col]
                     && y == arrBoard[2][col]) {
                 WinningPlayer = 1;
+                TicTacViewController.highlight(col, col + 3, col + 6);
                 return true;
             } else if (y == 2
                     && y == arrBoard[1][col]
                     && y == arrBoard[2][col]) {
                 WinningPlayer = 2;
+                TicTacViewController.highlight(col, col + 3, col + 6);
                 return true;
             }
         }
@@ -92,22 +100,26 @@ public class GameBoard implements IGameBoard
                 && arrBoard[0][0] == arrBoard[1][1]
                 && arrBoard[0][0] == arrBoard[2][2]) {
             WinningPlayer = 1;
+            TicTacViewController.highlight(0, 4, 8);
             return true;
             } else if (arrBoard[0][0] == 2
                 && arrBoard[0][0] == arrBoard[1][1]
                 && arrBoard[0][0] == arrBoard[2][2]) {
             WinningPlayer = 2;
+            TicTacViewController.highlight(0, 4, 8);
             return true;
         // checking diagonally if the value is 1 or 2
         } else if (arrBoard[2][0] == 1
                 && arrBoard[1][1] == arrBoard[0][2]
                 && arrBoard[0][2] == arrBoard[2][0]) {
             WinningPlayer = 1;
+            TicTacViewController.highlight(2, 4, 6);
             return true;
         } else if (arrBoard[2][0] == 2
                 && arrBoard[1][1] == arrBoard[0][2]
                 && arrBoard[0][2] == arrBoard[2][0]) {
             WinningPlayer = 2;
+            TicTacViewController.highlight(2, 4, 6);
             return true;
         }
         if(isBoardFull() && WinningPlayer==0) {
