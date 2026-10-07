@@ -55,7 +55,6 @@ public class GameBoard implements IGameBoard
      */
     public boolean play(int col, int row)
     {
-        //TODO Implement this method
         return true;
     }
     public boolean isGameOver() {
